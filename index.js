@@ -4,10 +4,17 @@ import URL from "./models/url.js";
 
 import router from "./routes/url.js";
 import { userRouter } from "./routes/user.js";
+import cors from "cors"
 
 
 const app = express();
 
+
+app.use(cors({
+  origin: "https://url-shortner-service-gules.vercel.app",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}))
 connectToMongoDB(process.env.MONGO_URL || "mongodb://localhost:27017/short-url")
 .then(() => console.log("MongoDB connected"));
 
