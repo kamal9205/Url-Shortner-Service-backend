@@ -1,20 +1,15 @@
+
 import express from "express";
 import connectToMongoDB from "./connect.js";
 import URL from "./models/url.js";
-
 import router from "./routes/url.js";
 import { userRouter } from "./routes/user.js";
-import cors from "cors"
+import dotenv from "dotenv";
+dotenv.config();
 
 
 const app = express();
 
-
-app.use(cors({
-  origin: "https://url-shortner-service-gules.vercel.app",
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
-}))
 connectToMongoDB(process.env.MONGO_URL || "mongodb://localhost:27017/short-url")
 .then(() => console.log("MongoDB connected"));
 
@@ -47,4 +42,4 @@ app.use("/url", router);
 app.use("/user", userRouter);
 
 
-app.listen(PORT, () => console.log(`Server started at PORT: ${PORT}`));
+app.listen(process.env.PORT, () => console.log(`Server started at PORT: ${PORT}`));
