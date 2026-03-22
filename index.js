@@ -12,23 +12,28 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-//   origin: ["http://localhost:5173", "https://your-frontend.vercel.app"],
-  origin: "*",
-  methods: ["GET", "POST"],
+    // origin: ["http://localhost:5173", "https://your-frontend.vercel.app"],
+      origin: "*",
+    methods: ["GET", "POST"],
 }));
 
 connectToMongoDB(process.env.MONGO_URL || "mongodb://localhost:27017/short-url")
-.then(() => console.log("MongoDB connected"));
+    .then(() => console.log("MongoDB connected"));
 
 const PORT = Number(process.env.PORT) || 8001;
 
 app.use(express.json());
-app.get('/:shortId',async (req,res)=> {
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+app.use("/url", router);
+app.use("/user", userRouter);
+app.get('/:shortId', async (req, res) => {
     const shortId = req.params.shortId;
     const entry = await URL.findOneAndUpdate(
         {
             shortId
-        } ,
+        },
         {
             $push: {
                 visitHistory: {
@@ -43,10 +48,6 @@ app.get('/:shortId',async (req,res)=> {
 
     return res.redirect(entry.redirectURL)
 })
-
-
-app.use("/url", router);
-app.use("/user", userRouter);
 
 
 app.listen(process.env.PORT, () => console.log(`Server started at PORT: ${PORT}`));
