@@ -6,9 +6,16 @@ import router from "./routes/url.js";
 import { userRouter } from "./routes/user.js";
 import dotenv from "dotenv";
 dotenv.config();
+import cors from "cors";
 
 
 const app = express();
+
+app.use(cors({
+//   origin: ["http://localhost:5173", "https://your-frontend.vercel.app"],
+  origin: "*",
+  methods: ["GET", "POST"],
+}));
 
 connectToMongoDB(process.env.MONGO_URL || "mongodb://localhost:27017/short-url")
 .then(() => console.log("MongoDB connected"));
