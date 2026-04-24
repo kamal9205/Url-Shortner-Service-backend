@@ -73,7 +73,7 @@ async function handleUserLogin(req, res) {
 async function handleGoogleLogin(req, res) {
   const { credential } = req.body;
   if (!credential) return res.status(400).json({ error: "Missing credential" });
-console.log("Received credential:", credential);
+
   try {
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
@@ -81,7 +81,6 @@ console.log("Received credential:", credential);
     });
     const payload = ticket.getPayload();
     const { sub, email, name } = payload;
-    console.log("Google payload:", payload);
 
     let user = await User.findOne({ email });
     if (!user) {
@@ -94,7 +93,6 @@ console.log("Received credential:", credential);
       user.googleId = sub;
       await user.save();
     }
-    console.log("User:", user);
 
     const token = jwt.sign(
       { _id: user._id, email: user.email },
