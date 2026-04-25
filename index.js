@@ -29,7 +29,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://your-project.vercel.app"
+    "https://frontend-three-mu-87.vercel.app/"
   ],
   credentials: true
 }));
