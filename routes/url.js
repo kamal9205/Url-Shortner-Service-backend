@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {handleGenerateNewUrl, handleGetAnalytics}  from "../controllers/url.js";
-import { optionalAuthenticate } from "../middleware/auth.js";
+import { optionalAuthenticate, authenticate } from "../middleware/auth.js";
 
 const router = Router();
 
 router.post("/", optionalAuthenticate, handleGenerateNewUrl);
-router.get("/analytics/:shortId",handleGetAnalytics)
+router.get("/analytics/:shortId", authenticate , handleGetAnalytics)
 
 export default router;
